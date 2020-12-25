@@ -20,6 +20,9 @@ service: date-go-where-bot
 # Check out our docs for more details
 frameworkVersion: "2"
 
+plugins:
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs12.x
