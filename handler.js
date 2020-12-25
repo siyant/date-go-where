@@ -1,6 +1,7 @@
 "use strict";
 
 const rp = require("request-promise");
+const activities = require("./activities.json");
 
 const BASE_URL = `https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}`;
 
@@ -23,20 +24,23 @@ module.exports.webhook = async (event) => {
 
   const { chat, text } = body.message;
 
-  await sendToChat(chat.id, "Received ur message: " + text);
+  if (!text) {
+    console.log("not a text message");
+    return { statusCode: 200 };
+  }
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: "Go Serverless v1.0! Your function executed successfully!",
-        input: event,
-      },
-      null,
-      2
-    ),
-  };
+  if (text.startsWith("/start")) {
+    await sendToChat(
+      chat.id,
+      "Hi, I'm DateGoWhere bot. Send /gowhere to start picking an activity!"
+    );
+  } else if (text.startsWith("/gowhere")) {
+    const randomIdx = Math.floor(Math.random() * Math.floor(activities.length));
+    const activity = activities[randomIdx];
+    await sendToChat(chat.id, activity.name);
+  } else {
+    await sendToChat(chat.id, "Message not processed: " + text);
+  }
 
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
+  return { statusCode: 200 };
 };
