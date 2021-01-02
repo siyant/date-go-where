@@ -1,26 +1,58 @@
 [
-  { "name": "st johns and lazarus island", "location": "outdoor" },
-  { "name": "sentosa luge/bungee jump", "location": "outdoor" },
-  { "name": "jurong lake gardens (it's nice!)", "location": "outdoor" },
-  { "name": "cycling (ecp/cross island pcn)", "location": "outdoor" },
-  { "name": "kayaking", "location": "outdoor" },
-  { "name": "hike ", "location": "outdoor" },
-  { "name": "picnic", "location": "outdoor" },
-  { "name": "swimming", "location": "outdoor" },
-  { "name": "wild wild wet", "location": "outdoor" },
-  { "name": "paddleboard/jetski (?)", "location": "outdoor" },
-  { "name": "walk in a new neighbourhood", "location": "outdoor" },
-  { "name": "camp (?)", "location": "outdoor" },
-  { "name": "take busses around singapore", "location": "outdoor" },
-  { "name": "kayak 2 star", "location": "outdoor" },
-  { "name": "stand up paddling", "location": "outdoor" },
-  { "name": "trampoline park", "location": "indoor" },
-  { "name": "simpang prata", "location": "indoor" },
-  { "name": "king and the pawn (board game cafe)", "location": "indoor" },
-  { "name": "jewel", "location": "indoor" },
-  { "name": "ice skating", "location": "indoor" },
-  { "name": "board games", "location": "indoor" },
-  { "name": "computer game (minecraft/factorio)", "location": "indoor" },
-  { "name": "cook/bake", "location": "indoor" },
-  { "name": "rock climbing", "location": "indoor" }
+  {
+    "name": "st johns and lazarus island",
+    "location": "OUTDOOR",
+    "duration": "FULL"
+  },
+  {
+    "name": "sentosa luge/bungee jump",
+    "location": "OUTDOOR",
+    "duration": "FULL"
+  },
+  { "name": "jurong lake gardens", "location": "OUTDOOR", "duration": "SHORT" },
+  {
+    "name": "cycling (ecp/cross island pcn)",
+    "location": "OUTDOOR",
+    "duration": "SHORT"
+  },
+  { "name": "kayaking", "location": "OUTDOOR", "duration": "SHORT" },
+  { "name": "hike", "location": "OUTDOOR", "duration": "SHORT" },
+  { "name": "picnic", "location": "OUTDOOR", "duration": "SHORT" },
+  { "name": "swimming", "location": "OUTDOOR", "duration": "SHORT" },
+  { "name": "wild wild wet", "location": "OUTDOOR", "duration": "SHORT" },
+  {
+    "name": "paddleboard/jetski (?)",
+    "location": "OUTDOOR",
+    "duration": "SHORT"
+  },
+  {
+    "name": "walk in a new neighbourhood",
+    "location": "OUTDOOR",
+    "duration": "SHORT"
+  },
+  { "name": "camp (?)", "location": "OUTDOOR", "duration": "FULL" },
+  {
+    "name": "take busses around singapore",
+    "location": "OUTDOOR",
+    "duration": "SHORT"
+  },
+  { "name": "kayak 2 star", "location": "OUTDOOR", "duration": "SHORT" },
+  { "name": "stand up paddling", "location": "OUTDOOR", "duration": "SHORT" },
+  { "name": "trampoline park", "location": "INDOOR", "duration": "SHORT" },
+  { "name": "simpang prata", "location": "INDOOR", "duration": "SHORT" },
+  {
+    "name": "king and the pawn (board game cafe)",
+    "location": "INDOOR",
+    "duration": "SHORT"
+  },
+  { "name": "jewel", "location": "INDOOR", "duration": "SHORT" },
+  { "name": "ice skating", "location": "INDOOR", "duration": "SHORT" },
+  { "name": "board games", "location": "INDOOR", "duration": "SHORT" },
+  {
+    "name": "computer game (minecraft/factorio)",
+    "location": "INDOOR",
+    "duration": "SHORT"
+  },
+  { "name": "cook/bake", "location": "INDOOR", "duration": "SHORT" },
+  { "name": "rock climbing", "location": "INDOOR", "duration": "SHORT" }
 ]
