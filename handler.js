@@ -124,6 +124,11 @@ module.exports.webhook = async (event) => {
         );
       } else if (cbData[0] == "DUR" || cbData[0] == "ACT") {
         const activity = getActivity(cbData[1], cbData[2]);
+        if (!activity)
+          await sendToChat(
+            chat.id,
+            `Oops, we don't have any ${cbData[1]} and ${cbData[2]} activities 😖 Can try something else?`
+          );
         let text =
           cbData[0] == "DUR"
             ? `Got it, ${cbData[1]} and ${cbData[2]}.\n\n`
