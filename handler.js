@@ -29,6 +29,16 @@ async function answerCallbackQuery(callback_query_id) {
   return rp(options);
 }
 
+async function editMessageReplyMarkup(chat_id, message_id, reply_markup) {
+  const options = {
+    method: "POST",
+    uri: `${BASE_URL}/editMessageReplyMarkup`,
+    qs: { chat_id, message_id, reply_markup },
+  };
+
+  return rp(options);
+}
+
 function getActivity(location, duration) {
   const activitiesFiltered = activities.filter(
     (a) => a.location == location && a.duration == duration
@@ -69,11 +79,11 @@ module.exports.webhook = async (event) => {
             inline_keyboard: [
               [
                 {
-                  text: "Indoor",
+                  text: "Indoor 🏠",
                   callback_data: ["LOC", "INDOOR"].join(","),
                 },
                 {
-                  text: "Outdoor",
+                  text: "Outdoor 🏖",
                   callback_data: ["LOC", "OUTDOOR"].join(","),
                 },
               ],
@@ -89,11 +99,12 @@ module.exports.webhook = async (event) => {
       const cbData = data.split(",");
 
       await answerCallbackQuery(id);
+      await editMessageReplyMarkup(chat.id, message.message_id, null);
 
       if (cbData[0] == "LOC") {
         await sendToChat(
           chat.id,
-          "Do you want something short (half day or less) or full day?",
+          `Ok, ${cbData[1]} it is.\nDo you want something short (half day or less) or full day?`,
           {
             reply_markup: JSON.stringify({
               inline_keyboard: [
@@ -113,7 +124,12 @@ module.exports.webhook = async (event) => {
         );
       } else if (cbData[0] == "DUR" || cbData[0] == "ACT") {
         const activity = getActivity(cbData[1], cbData[2]);
-        await sendToChat(chat.id, `How about: ${activity.name}`, {
+        let text =
+          cbData[0] == "DUR"
+            ? `Got it, ${cbData[1]} and ${cbData[2]}.\n\n`
+            : "";
+        text += `How about: ${activity.name}`;
+        await sendToChat(chat.id, text, {
           reply_markup: JSON.stringify({
             inline_keyboard: [
               [
@@ -129,9 +145,9 @@ module.exports.webhook = async (event) => {
             ],
           }),
         });
+      } else if (cbData[0] == "DONE") {
+        await sendToChat(chat.id, "Awesome, have fun! 😄");
       }
-    } else if (cbData[0] == "DONE") {
-      await sendToChat(chat.id, "Awesome, have fun! 😁");
     }
   } catch (err) {
     console.error("\n\n\nCaught error:\n", err, "\n\n\n");
