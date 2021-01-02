@@ -70,17 +70,11 @@ module.exports.webhook = async (event) => {
               [
                 {
                   text: "Indoor",
-                  callback_data: JSON.stringify({
-                    step: "LOCATION",
-                    choice: "INDOOR",
-                  }),
+                  callback_data: ["LOC", "INDOOR"].join(","),
                 },
                 {
                   text: "Outdoor",
-                  callback_data: JSON.stringify({
-                    step: "LOCATION",
-                    choice: "OUTDOOR",
-                  }),
+                  callback_data: ["LOC", "OUTDOOR"].join(","),
                 },
               ],
             ],
@@ -92,11 +86,11 @@ module.exports.webhook = async (event) => {
     } else if (body.callback_query) {
       const { id, message, data } = body.callback_query;
       const { chat } = message;
-      const cbData = JSON.parse(data);
+      const cbData = data.split(",");
 
       await answerCallbackQuery(id);
 
-      if (cbData.step == "LOCATION") {
+      if (cbData[0] == "LOC") {
         await sendToChat(
           chat.id,
           "Do you want something short (half day or less) or full day?",
@@ -106,29 +100,38 @@ module.exports.webhook = async (event) => {
                 [
                   {
                     text: "Short",
-                    callback_data: JSON.stringify({
-                      step: "DURATION",
-                      choice: "SHORT",
-                      location: cbData.choice,
-                    }),
+                    callback_data: ["DUR", cbData[1], "SHORT"].join(","),
                   },
                   {
                     text: "Full day",
-                    callback_data: JSON.stringify({
-                      step: "DURATION",
-                      choice: "FULL",
-                      location: cbData.choice,
-                    }),
+                    callback_data: ["DUR", cbData[1], "FULL"].join(","),
                   },
                 ],
               ],
             }),
           }
         );
-      } else if (cbData.step == "DURATION") {
-        const activity = getActivity(cbData.location, cbData.choice);
-        await sendToChat(chat.id, `How about: ${activity.name}`);
+      } else if (cbData[0] == "DUR" || cbData[0] == "ACT") {
+        const activity = getActivity(cbData[1], cbData[2]);
+        await sendToChat(chat.id, `How about: ${activity.name}`, {
+          reply_markup: JSON.stringify({
+            inline_keyboard: [
+              [
+                {
+                  text: "Ok!",
+                  callback_data: "DONE",
+                },
+                {
+                  text: "Nah, another one pls",
+                  callback_data: ["ACT", cbData[1], cbData[2]].join(","),
+                },
+              ],
+            ],
+          }),
+        });
       }
+    } else if (cbData[0] == "DONE") {
+      await sendToChat(chat.id, "Awesome, have fun! 😁");
     }
   } catch (err) {
     console.error("\n\n\nCaught error:\n", err, "\n\n\n");
